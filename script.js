@@ -5,7 +5,7 @@ const audio = new Audio('background_music.mp3');
 
 // Function to play or pause music
 function toggleMusic() {
-    if (!isPlaying) {
+    if (isPlaying) {
         audio.pause();
         document.getElementById('play-music').textContent = 'Play Music';
     } else {
@@ -18,7 +18,10 @@ function toggleMusic() {
 // Function to automatically start the music on first scroll
 function startMusicOnScroll() {
     if (!musicStarted) {
-        audio.play();
+        audio.play().catch(error => {
+            // Handle errors (e.g., autoplay policy restrictions)
+            console.log('Error playing audio:', error);
+        });
         document.getElementById('play-music').textContent = 'Pause Music';
         isPlaying = true;
         musicStarted = true;  // Ensure the music only starts once on first scroll
@@ -43,5 +46,11 @@ window.addEventListener('scroll', function() {
             section.classList.remove('visible');  // Reset animation when out of view
         }
     });
+
+    // Trigger jump when the user reaches the bottom
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+        const jumpingImage = document.getElementById('jumping-image');
+        jumpingImage.classList.add('jump'); // Add the jump class when at bottom of the page
+    }
 });
 
