@@ -5,7 +5,7 @@ const audio = new Audio('background_music.mp3');
 
 // Function to play or pause music
 function toggleMusic() {
-    if (isPlaying) {
+    if (!isPlaying) {
         audio.pause();
         document.getElementById('play-music').textContent = 'Play Music';
     } else {
